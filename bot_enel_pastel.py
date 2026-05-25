@@ -31,6 +31,22 @@ def obtener_conexion():
         connect_timeout=10
     )
 
+@bot.message_handler(commands=['start'])
+def inicio(message):
+    texto = """
+Buen día 👋
+Bot de consultas Enel
+
+Comandos disponibles:
+/orden número_orden
+
+Ejemplo:
+/orden 1994287
+
+Consulta el último estado de una orden.
+"""
+    bot.reply_to(message, texto)
+
 # COMANDO /orden
 @bot.message_handler(commands=['orden'])
 def buscar_cliente(message):
