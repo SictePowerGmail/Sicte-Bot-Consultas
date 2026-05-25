@@ -117,16 +117,15 @@ def buscar_cliente(message):
 
             ORDEN, ROTULO, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
 
-            respuesta = f"""
-        Orden: {ORDEN}
-        Rotulo: {ROTULO}
-        Estado: {ESTADO}
-        Fecha estado: {FECHA_ESTADO}
-        Localidad: {LOCALIDAD}
-        Tipo móvil: {TIPO_MOVIL}
-
-        Baremos:
-        """
+            respuesta = (
+                f"Orden: {ORDEN}\n"
+                f"Rotulo: {ROTULO}\n"
+                f"Estado: {ESTADO}\n"
+                f"Fecha estado: {FECHA_ESTADO}\n"
+                f"Localidad: {LOCALIDAD}\n"
+                f"Tipo móvil: {TIPO_MOVIL}\n\n"
+                f"Baremos:\n"
+            )
 
             if resultado_baremos:
 
