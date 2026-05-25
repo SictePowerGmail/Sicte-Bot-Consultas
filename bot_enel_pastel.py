@@ -145,7 +145,7 @@ def buscar_cliente(message):
                         f"\nItem {item}"
                         f"\nCantidad: {cantidad}"
                         f"\nAmap: {amap}"
-                        f"\n{Item}\n"
+                        f"\n{Item}\n\n"
                     )
             else:
                 respuesta += "\nNo se encontraron baremos"
