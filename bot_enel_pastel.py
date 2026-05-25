@@ -43,7 +43,7 @@ Comandos disponibles:
 Ejemplo:
 /orden 1994287
 
-Consulta el último estado de una orden.
+Consulta el último estado, Baremos y Material de una orden.
 """
     bot.reply_to(message, texto)
 
@@ -105,12 +105,23 @@ def buscar_cliente(message):
         FROM vw_baremos
         WHERE orden = %s
         """
+        sql_material = """
+        SELECT 
+            Id_Item_3,
+            Cantidad_Instalada,
+            Item
+        FROM vw_material_instalado
+        WHERE orden = %s
+        """
 
         cursor.execute(sql, (orden,))
         resultado = cursor.fetchone()
         
         cursor.execute(sql_baremos, (orden,))
         resultado_baremos = cursor.fetchall()
+
+        cursor.execute(sql_material, (orden,))
+        resultado_material = cursor.fetchall()
 
         # RESPUESTA
         if resultado:
@@ -124,15 +135,12 @@ def buscar_cliente(message):
                 f"Fecha estado: {FECHA_ESTADO}\n"
                 f"Localidad: {LOCALIDAD}\n"
                 f"Tipo móvil: {TIPO_MOVIL}\n\n"
-                f"Baremos:\n"
             )
 
             if resultado_baremos:
-
+                respuesta += "Baremos:\n"
                 for fila in resultado_baremos:
-
                     item, cantidad, amap, Item = fila
-
                     respuesta += (
                         f"\nItem {item}"
                         f"\nCantidad: {cantidad}"
@@ -141,6 +149,18 @@ def buscar_cliente(message):
                     )
             else:
                 respuesta += "\nNo se encontraron baremos"
+
+            if resultado_material:
+                respuesta += "Material:\n"
+                for fila in resultado_material:
+                    item, cantidad, Item = fila
+                    respuesta += (
+                        f"\nItem {item}"
+                        f"\nCantidad: {cantidad}"
+                        f"\n{Item}\n"
+                    )
+            else:
+                respuesta += "\nNo se encontro material"
         else:
             respuesta = "Orden no encontrada"
         bot.reply_to(message, respuesta)
