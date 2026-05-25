@@ -86,6 +86,7 @@ def buscar_cliente(message):
         sql = """
         SELECT 
             ORDEN,
+            ROTULO,
             ESTADO,
             FECHA_ESTADO,
             LOCALIDAD,
@@ -95,20 +96,46 @@ def buscar_cliente(message):
         ORDER BY FECHA_ESTADO DESC
         LIMIT 1
         """
+        sql_baremos = """
+        SELECT 
+            Id_Item_3,
+            Cantidad_Instalada,
+            Descripción
+        FROM vw_baremos
+        WHERE orden = %s
+        """
 
         cursor.execute(sql, (orden,))
         resultado = cursor.fetchone()
+        
+        cursor.execute(sql_baremos, (orden,))
+        resultado_baremos = cursor.fetchall()
 
         # RESPUESTA
         if resultado:
-            ORDEN, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
+
+            ORDEN, ROTULO, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
+
             respuesta = f"""
-Orden: {ORDEN}
-Estado: {ESTADO}
-Fecha estado: {FECHA_ESTADO}
-Localidad: {LOCALIDAD}
-Tipo móvil: {TIPO_MOVIL}
-"""
+        Orden: {ORDEN}
+        Rotulo: {ROTULO}
+        Estado: {ESTADO}
+        Fecha estado: {FECHA_ESTADO}
+        Localidad: {LOCALIDAD}
+        Tipo móvil: {TIPO_MOVIL}
+
+        Baremos:
+        """
+            if resultado_baremos:
+                for fila in resultado_baremos:
+                    item, cantidad, descripcion = fila
+                    respuesta += (
+                        f"\n• {item}"
+                        f"\nCantidad: {cantidad}"
+                        f"\n{descripcion}\n"
+                    )
+            else:
+                respuesta += "\nNo se encontraron baremos"
         else:
             respuesta = "Orden no encontrada"
         bot.reply_to(message, respuesta)
