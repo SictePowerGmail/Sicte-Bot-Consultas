@@ -112,6 +112,7 @@ def buscar_cliente(message):
             Item
         FROM vw_material_instalado
         WHERE orden = %s
+        AND Id_Item_3 <> 0
         """
 
         cursor.execute(sql, (orden,))
