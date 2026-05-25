@@ -7,33 +7,56 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# =========================
 # PAUSAR BOT
+# =========================
 if os.getenv("BOT_PAUSADO") == "true":
     print("Bot pausado")
     sys.exit()
 
+# =========================
+# TOKEN TELEGRAM
+# =========================
 TOKEN = os.getenv("telegram_token_enel_consultas_bot")
+
 bot = telebot.TeleBot(TOKEN)
 
-conexion = pymysql.connect(
-    host=os.getenv("host_enel"),
-    user=os.getenv("user_enel"),
-    password=os.getenv("password_enel"),
-    database=os.getenv("db_enel"),
-    port=int(os.getenv("port_enel"))
-)
-
+# =========================
+# CONTROL ANTI SPAM
+# =========================
 ultimo_uso = {}
 
+# =========================
+# FUNCIÓN CONEXIÓN MYSQL
+# =========================
+def obtener_conexion():
+
+    return pymysql.connect(
+        host=os.getenv("host_enel"),
+        user=os.getenv("user_enel"),
+        password=os.getenv("password_enel"),
+        database=os.getenv("db_enel"),
+        port=int(os.getenv("port_enel")),
+        connect_timeout=10
+    )
+
+# =========================
+# COMANDO /orden
+# =========================
 @bot.message_handler(commands=['orden'])
 def buscar_cliente(message):
+
+    conexion = None
+    cursor = None
 
     try:
 
         user_id = message.from_user.id
         ahora = time.time()
 
-        # Anti spam
+        # =========================
+        # ANTI SPAM
+        # =========================
         if user_id in ultimo_uso:
 
             diferencia = ahora - ultimo_uso[user_id]
@@ -49,7 +72,9 @@ def buscar_cliente(message):
 
         ultimo_uso[user_id] = ahora
 
-        # Validar parámetro
+        # =========================
+        # VALIDAR PARÁMETRO
+        # =========================
         partes = message.text.split()
 
         if len(partes) < 2:
@@ -63,10 +88,20 @@ def buscar_cliente(message):
 
         orden = partes[1]
 
+        # =========================
+        # NUEVA CONEXIÓN MYSQL
+        # =========================
+        conexion = obtener_conexion()
+
         cursor = conexion.cursor()
 
         sql = """
-        SELECT ORDEN, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL
+        SELECT 
+            ORDEN,
+            ESTADO,
+            FECHA_ESTADO,
+            LOCALIDAD,
+            TIPO_MOVIL
         FROM vw_ordenes
         WHERE ORDEN = %s
         ORDER BY FECHA_ESTADO DESC
@@ -77,8 +112,9 @@ def buscar_cliente(message):
 
         resultado = cursor.fetchone()
 
-        cursor.close()
-
+        # =========================
+        # RESPUESTA
+        # =========================
         if resultado:
 
             ORDEN, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
@@ -111,14 +147,33 @@ Tipo móvil: {TIPO_MOVIL}
             f"Error:\n{e}"
         )
 
+    finally:
+
+        # =========================
+        # CERRAR CONEXIONES
+        # =========================
+        if cursor:
+            cursor.close()
+
+        if conexion:
+            conexion.close()
+
+# =========================
+# INICIAR BOT
+# =========================
 print("Bot iniciado...")
 
 while True:
+
     try:
+
         bot.infinity_polling(
             timeout=60,
             long_polling_timeout=60
         )
+
     except Exception as e:
-        print(e)
+
+        print(f"Error polling: {e}")
+
         time.sleep(5)
