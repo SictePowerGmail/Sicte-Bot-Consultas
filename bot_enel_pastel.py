@@ -2,9 +2,16 @@ import telebot
 import pymysql
 import time
 import os
+import sys
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# PAUSAR BOT
+if os.getenv("BOT_PAUSADO") == "true":
+    print("Bot pausado")
+    sys.exit()
+
 TOKEN = os.getenv("telegram_token_enel_consultas_bot")
 bot = telebot.TeleBot(TOKEN)
 
