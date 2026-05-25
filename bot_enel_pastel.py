@@ -100,7 +100,8 @@ def buscar_cliente(message):
         SELECT 
             Id_Item_3,
             Cantidad_Instalada,
-            Descripción
+            amap,
+            Item
         FROM vw_baremos
         WHERE orden = %s
         """
@@ -128,11 +129,12 @@ def buscar_cliente(message):
         """
             if resultado_baremos:
                 for fila in resultado_baremos:
-                    item, cantidad, descripcion = fila
+                    item, cantidad, amap, Item = fila
                     respuesta += (
-                        f"\n• {item}"
+                        f"\nItem {item}"
                         f"\nCantidad: {cantidad}"
-                        f"\n{descripcion}\n"
+                        f"\nAmap: {amap}\n"
+                        f"\n{Item}\n"
                     )
             else:
                 respuesta += "\nNo se encontraron baremos"
