@@ -127,13 +127,17 @@ def buscar_cliente(message):
 
         Baremos:
         """
+
             if resultado_baremos:
+
                 for fila in resultado_baremos:
+
                     item, cantidad, amap, Item = fila
+
                     respuesta += (
                         f"\nItem {item}"
                         f"\nCantidad: {cantidad}"
-                        f"\nAmap: {amap}\n"
+                        f"\nAmap: {amap}"
                         f"\n{Item}\n"
                     )
             else:
