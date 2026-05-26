@@ -243,10 +243,14 @@ def buscar_rotulo(message):
                 "No se encontraron órdenes para ese rótulo"
             )
             return
+        
+        cantidad_ordenes = len(ordenes)
 
-        respuesta = f"🔎 Rótulo: {rotulo}\n"
-        respuesta += "===================================\n"
-
+        respuesta = (
+            f"🔎 Rótulo: {rotulo}\n"
+            f"🚐 Número de veces que se atendió: {cantidad_ordenes}\n"
+            "==================================\n\n"
+        )
         # CONSULTAS
         sql_detalle = """
         SELECT 
