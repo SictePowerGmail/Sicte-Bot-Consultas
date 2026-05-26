@@ -39,9 +39,11 @@ Bot de consultas Enel
 
 Comandos disponibles:
 /orden número_orden
+/rotulo número_rotulo
 
 Ejemplo:
 /orden 1994287
+/rotulo 2121929
 
 Consulta el último estado, Baremos y Material de una orden.
 """
@@ -140,7 +142,7 @@ def buscar_cliente(message):
 
             if resultado_baremos:
                 respuesta += "📋 Baremos:\n"
-                respuesta += "--------------------------------------------------"
+                respuesta += "=================================="
                 for fila in resultado_baremos:
                     item, cantidad, amap, Item = fila
                     respuesta += (
@@ -154,7 +156,7 @@ def buscar_cliente(message):
 
             if resultado_material:
                 respuesta += "💡 Material:\n"
-                respuesta += "--------------------------------------------------"
+                respuesta += "=================================="
                 for fila in resultado_material:
                     item, cantidad, Item = fila
                     respuesta += (
@@ -309,7 +311,7 @@ def buscar_rotulo(message):
             if resultado_baremos:
 
                 respuesta += "📋 Baremos:\n"
-
+                respuesta += "=================================="
                 for fila in resultado_baremos:
 
                     item, cantidad, amap, Item = fila
@@ -331,21 +333,19 @@ def buscar_rotulo(message):
             if resultado_material:
 
                 respuesta += "\n💡 Material:\n"
-
+                respuesta += "=================================="
                 for fila in resultado_material:
 
                     item, cantidad, Item = fila
 
                     respuesta += (
                         f"\nItem: {item}"
-                        f"\nCantidad: {cantidad}\n"
+                        f"\nCantidad: {cantidad}"
                         f"\n{Item}\n"
                     )
 
             else:
                 respuesta += "\nSin material\n"
-
-            respuesta += "\n==================================\n\n"
 
         bot.reply_to(message, respuesta)
 
