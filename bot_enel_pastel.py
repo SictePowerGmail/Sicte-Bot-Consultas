@@ -45,7 +45,7 @@ Ejemplo:
 /orden 1994287
 /rotulo 2121929
 
-Consulta el último estado, Baremos y Material de una orden.
+Consulta el último estado, Baremos y Material por orden o rotulo.
 """
     bot.reply_to(message, texto)
 
@@ -245,7 +245,7 @@ def buscar_rotulo(message):
             return
 
         respuesta = f"🔎 Rótulo: {rotulo}\n"
-        respuesta += "==================================\n\n"
+        respuesta += "=================================="
 
         # CONSULTAS
         sql_detalle = """
