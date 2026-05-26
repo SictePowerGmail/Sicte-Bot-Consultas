@@ -245,7 +245,7 @@ def buscar_rotulo(message):
             return
 
         respuesta = f"🔎 Rótulo: {rotulo}\n"
-        respuesta += "=================================="
+        respuesta += "==================================\n"
 
         # CONSULTAS
         sql_detalle = """
