@@ -245,7 +245,7 @@ def buscar_rotulo(message):
             return
 
         respuesta = f"🔎 Rótulo: {rotulo}\n"
-        respuesta += "==================================\n"
+        respuesta += "==================================================\n"
 
         # CONSULTAS
         sql_detalle = """
@@ -295,7 +295,8 @@ def buscar_rotulo(message):
                 continue
 
             ORDEN, ROTULO, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
-
+            respuesta += "📌 Orden:\n"
+            respuesta += "==================================================\n"
             respuesta += (
                 f"Orden: {ORDEN}\n"
                 f"Estado: {ESTADO}\n"
@@ -303,7 +304,7 @@ def buscar_rotulo(message):
                 f"Localidad: {LOCALIDAD}\n"
                 f"Tipo móvil: {TIPO_MOVIL}\n\n"
             )
-            respuesta += "==================================\n"
+            
             # BAREMOS
             cursor.execute(sql_baremos, (orden,))
             resultado_baremos = cursor.fetchall()
