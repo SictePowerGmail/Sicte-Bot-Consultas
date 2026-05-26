@@ -303,7 +303,7 @@ def buscar_rotulo(message):
                 f"Localidad: {LOCALIDAD}\n"
                 f"Tipo móvil: {TIPO_MOVIL}\n\n"
             )
-
+            respuesta += "==================================\n"
             # BAREMOS
             cursor.execute(sql_baremos, (orden,))
             resultado_baremos = cursor.fetchall()
@@ -311,7 +311,7 @@ def buscar_rotulo(message):
             if resultado_baremos:
 
                 respuesta += "📋 Baremos:\n"
-                respuesta += "=================================="
+                respuesta += "__________________________________________________"
                 for fila in resultado_baremos:
 
                     item, cantidad, amap, Item = fila
@@ -333,7 +333,7 @@ def buscar_rotulo(message):
             if resultado_material:
 
                 respuesta += "\n💡 Material:\n"
-                respuesta += "=================================="
+                respuesta += "__________________________________________________"
                 for fila in resultado_material:
 
                     item, cantidad, Item = fila
