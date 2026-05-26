@@ -295,6 +295,7 @@ def buscar_rotulo(message):
                 continue
 
             ORDEN, ROTULO, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
+            respuesta += "\n"
             respuesta += "📌 Orden:\n"
             respuesta += "===================================\n"
             respuesta += (
