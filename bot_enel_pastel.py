@@ -245,7 +245,7 @@ def buscar_rotulo(message):
             return
 
         respuesta = f"🔎 Rótulo: {rotulo}\n"
-        respuesta += "==================================================\n"
+        respuesta += "===================================\n"
 
         # CONSULTAS
         sql_detalle = """
@@ -296,7 +296,7 @@ def buscar_rotulo(message):
 
             ORDEN, ROTULO, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
             respuesta += "📌 Orden:\n"
-            respuesta += "==================================================\n"
+            respuesta += "===================================\n"
             respuesta += (
                 f"Orden: {ORDEN}\n"
                 f"Estado: {ESTADO}\n"
@@ -312,7 +312,7 @@ def buscar_rotulo(message):
             if resultado_baremos:
 
                 respuesta += "📋 Baremos:\n"
-                respuesta += "__________________________________________________"
+                respuesta += "___________________________________"
                 for fila in resultado_baremos:
 
                     item, cantidad, amap, Item = fila
@@ -334,7 +334,7 @@ def buscar_rotulo(message):
             if resultado_material:
 
                 respuesta += "\n💡 Material:\n"
-                respuesta += "__________________________________________________"
+                respuesta += "___________________________________"
                 for fila in resultado_material:
 
                     item, cantidad, Item = fila
