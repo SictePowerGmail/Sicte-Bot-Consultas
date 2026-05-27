@@ -15,7 +15,7 @@ TOKEN = os.getenv("telegram_token_enel_consultas_bot")
 
 
 import hashlib
-print(hashlib.sha256("123456".encode()).hexdigest())
+print(hashlib.sha256("1234567".encode()).hexdigest())
 # ======================================
 # BOT
 # ======================================
