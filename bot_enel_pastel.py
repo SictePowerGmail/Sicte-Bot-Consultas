@@ -81,7 +81,7 @@ Puedo ayudarte a consultar:
 📌 Órdenes
 🏷️ Rótulos
 
-Puedes acceder a el desde el botón  ☰
+Puedes acceder al menú desde el botón  ☰
 
 Selecciona una opción del menú en el borde inferior de su pantalla 👇
 """
