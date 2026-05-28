@@ -17,6 +17,12 @@ TOKEN = os.getenv("telegram_token_enel_consultas_bot")
 
 bot = telebot.TeleBot(TOKEN)
 
+# COMANDOS DEL BOT (Menus persistente)
+bot.set_my_commands([
+    telebot.types.BotCommand("start", "Iniciar bot"),
+    telebot.types.BotCommand("menu", "Mostrar menú") 
+])
+
 # CONTROL ANTI SPAM
 ultimo_uso = {}
 
