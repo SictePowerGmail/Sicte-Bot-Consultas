@@ -37,7 +37,9 @@ def mostrar_menu(chat_id):
 
     markup = types.ReplyKeyboardMarkup(
         resize_keyboard=True,
-        row_width=2
+        row_width=2,
+        one_time_keyboard=False,
+        selective=False
     )
 
     btn_orden = types.KeyboardButton("📦 Consultar Orden")
@@ -66,7 +68,7 @@ def inicio(message):
     texto = f"""
 Buen día {saludo} 👋
 
-Soy tu asistente de consultas 🤖
+Soy tu asistente de consultas 🦜
 
 Puedo ayudarte a consultar:
 
@@ -230,6 +232,7 @@ def buscar_cliente(message):
         else:
             respuesta = "Favor validar con centro de control"
         bot.reply_to(message, respuesta, parse_mode='HTML')
+        mostrar_menu(message.chat.id)
     except pymysql.MySQLError as e:
         bot.reply_to(
             message,
@@ -410,6 +413,7 @@ def buscar_rotulo(message):
                 respuesta += "\n💡 <b>Material:</b> Sin material\n"
 
         bot.reply_to(message, respuesta, parse_mode='HTML')
+        mostrar_menu(message.chat.id)
 
     except pymysql.MySQLError as e:
 
