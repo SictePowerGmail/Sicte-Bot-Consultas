@@ -81,8 +81,9 @@ Puedo ayudarte a consultar:
 📌 Órdenes
 🏷️ Rótulos
 
-Selecciona una opción del menú en el menú: en el borde inferior de su pantalla 👇
-Puedes acceder a el desde el botón ☰
+Puedes acceder a el desde el botón  ☰
+
+Selecciona una opción del menú en el borde inferior de su pantalla 👇
 """
 
     bot.send_message(
