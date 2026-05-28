@@ -196,7 +196,7 @@ def logout(message):
 
     bot.reply_to(
         message,
-        "✅ Sesión cerrada"
+        "✅ Sesión cerrada con exito"
     )
 
 # ======================================
