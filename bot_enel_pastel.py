@@ -55,7 +55,7 @@ def mostrar_menu(chat_id):
 
     bot.send_message(
         chat_id,
-        "📝 Selecciona una opción:",
+        "📝 Selecciona una opción en el menú en el borde inferior de su pantalla (Tambien puede acceder a el desde ☰):",
         reply_markup=markup
     )
 
