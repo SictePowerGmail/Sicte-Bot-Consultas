@@ -55,7 +55,7 @@ def mostrar_menu(chat_id):
 
     bot.send_message(
         chat_id,
-        "📝 Selecciona una opción en el menú en el borde inferior de su pantalla (Tambien puede acceder a el desde ☰):",
+        "📝 Selecciona una opción:",
         reply_markup=markup
     )
 
@@ -81,7 +81,8 @@ Puedo ayudarte a consultar:
 📌 Órdenes
 🏷️ Rótulos
 
-Selecciona una opción del menú 👇
+Selecciona una opción del menú en el menú: en el borde inferior de su pantalla 👇
+Puedes acceder a el desde el botón ☰
 """
 
     bot.send_message(
