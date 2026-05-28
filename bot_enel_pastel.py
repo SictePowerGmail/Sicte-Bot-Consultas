@@ -132,43 +132,39 @@ def buscar_cliente(message):
             ORDEN, ROTULO, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
 
             respuesta = (
-                f"Orden: {ORDEN}\n"
-                f"Rotulo: {ROTULO}\n"
-                f"Estado: {ESTADO}\n"
-                f"Fecha estado: {FECHA_ESTADO}\n"
-                f"Localidad: {LOCALIDAD}\n"
-                f"Tipo móvil: {TIPO_MOVIL}\n\n"
+                f"📌 <b>Orden:</b> {ORDEN}\n"
+                f"🏷️ <b>Rotulo:</b> {ROTULO}\n"
+                f"📄 <b>Estado:</b> {ESTADO}\n"
+                f"📅 <b>Fecha estado:</b> {FECHA_ESTADO}\n"
+                f"📍 <b>Localidad:</b> {LOCALIDAD}\n"
+                f"🚛 <b>Tipo móvil:</b> {TIPO_MOVIL}\n\n"
             )
 
             if resultado_baremos:
-                respuesta += "📋 Baremos:\n"
-                respuesta += "=================================="
+                respuesta += "📋 <b>Baremos:</b>\n"
                 for fila in resultado_baremos:
                     item, cantidad, amap, Item = fila
                     respuesta += (
-                        f"\nItem {item}"
-                        f"\nCantidad: {cantidad}"
-                        f"\nAmap: {amap}"
-                        f"\n{Item}\n\n"
+                        f"\n• <b>Item:</b> {item} - {Item}"
+                        f"\n• <b>Cantidad:</b> {cantidad}"
+                        f"\n• <b>Amap:</b> {amap}\n"
                     )
             else:
-                respuesta += "\nNo se encontraron baremos"
+                respuesta += "\n<b>Baremos:</b> Sin baremos"
 
             if resultado_material:
-                respuesta += "💡 Material:\n"
-                respuesta += "=================================="
+                respuesta += "💡 <b>Material:</b>\n"
                 for fila in resultado_material:
                     item, cantidad, Item = fila
                     respuesta += (
-                        f"\nItem {item}"
-                        f"\nCantidad: {cantidad}"
-                        f"\n{Item}\n"
+                        f"\n• <b>Item</b> {item} - {Item}"
+                        f"\n• <b>Cantidad:</b> {cantidad}\n"
                     )
             else:
-                respuesta += "\nNo se encontro material"
+                respuesta += "\n<b>Material:</b> Sin material"
         else:
-            respuesta = "Orden no encontrada"
-        bot.reply_to(message, respuesta)
+            respuesta = "Favor validar con centro de control"
+        bot.reply_to(message, respuesta, parse_mode='HTML')
     except pymysql.MySQLError as e:
         bot.reply_to(
             message,
@@ -240,16 +236,16 @@ def buscar_rotulo(message):
         if not ordenes:
             bot.reply_to(
                 message,
-                "No se encontraron órdenes para ese rótulo"
+                "Favor validar con centro de control"
             )
             return
         
         cantidad_ordenes = len(ordenes)
 
         respuesta = (
-            f"🔎 Rótulo: {rotulo}\n"
-            f"🚐 Número de veces que se atendió: {cantidad_ordenes}\n"
-            "==================================\n\n"
+            f"Aquí tienes información del rotulo:\n"
+            f"\n🔎 <b>Rótulo:</b> {rotulo}\n"
+            f"🚐 <b>Atenciones registradas:</b> {cantidad_ordenes}\n"
         )
         # CONSULTAS
         sql_detalle = """
@@ -299,15 +295,14 @@ def buscar_rotulo(message):
                 continue
 
             ORDEN, ROTULO, ESTADO, FECHA_ESTADO, LOCALIDAD, TIPO_MOVIL = resultado
-            respuesta += "\n\n"
-            respuesta += "📌 Orden:\n"
-            respuesta += "===================================\n"
             respuesta += (
-                f"Orden: {ORDEN}\n"
-                f"Estado: {ESTADO}\n"
-                f"Fecha: {FECHA_ESTADO}\n"
-                f"Localidad: {LOCALIDAD}\n"
-                f"Tipo móvil: {TIPO_MOVIL}\n\n"
+                f"\n\n\n"
+                f"📌 <b>Orden:</b> {ORDEN}\n"
+                f"\n"
+                f"📄 <b>Estado:</b> {ESTADO}\n"
+                f"📅 <b>Fecha:</b> {FECHA_ESTADO}\n"
+                f"📍 <b>Localidad:</b> {LOCALIDAD}\n"
+                f"🚛 <b>Tipo móvil:</b> {TIPO_MOVIL}\n\n"
             )
             
             # BAREMOS
@@ -316,21 +311,19 @@ def buscar_rotulo(message):
 
             if resultado_baremos:
 
-                respuesta += "📋 Baremos:\n"
-                respuesta += "___________________________________"
+                respuesta += "📋 <b>Baremos:</b>\n"
                 for fila in resultado_baremos:
 
                     item, cantidad, amap, Item = fila
 
                     respuesta += (
-                        f"\nItem: {item}"
-                        f"\nCantidad: {cantidad}"
-                        f"\nAmap: {amap}"
-                        f"\n{Item}\n"
+                        f"\n• <b>Item:</b> {item} - {Item}"
+                        f"\n• <b>Amap:</b> {amap}"
+                        f"\n• <b>Cantidad:</b> {cantidad}\n"
                     )
 
             else:
-                respuesta += "Sin baremos\n"
+                respuesta += "📋 <b>Baremos:</b> Sin baremos\n"
 
             # MATERIAL
             cursor.execute(sql_material, (orden,))
@@ -338,22 +331,20 @@ def buscar_rotulo(message):
 
             if resultado_material:
 
-                respuesta += "\n💡 Material:\n"
-                respuesta += "___________________________________"
+                respuesta += "\n💡 <b>Material:</b>\n"
                 for fila in resultado_material:
 
                     item, cantidad, Item = fila
 
                     respuesta += (
-                        f"\nItem: {item}"
-                        f"\nCantidad: {cantidad}"
-                        f"\n{Item}\n"
+                        f"\n• <b>Item:</b> {item} - {Item}"
+                        f"\n• <b>Cantidad:</b>  {cantidad}\n"
                     )
 
             else:
-                respuesta += "\nSin material\n"
+                respuesta += "\n💡 <b>Material:</b> Sin material\n"
 
-        bot.reply_to(message, respuesta)
+        bot.reply_to(message, respuesta, parse_mode='HTML')
 
     except pymysql.MySQLError as e:
 
