@@ -3,6 +3,7 @@ import pymysql
 import time
 import os
 import sys
+from telebot import types
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -31,24 +32,82 @@ def obtener_conexion():
         connect_timeout=10
     )
 
+# MENU PRINCIPAL
+def mostrar_menu(chat_id):
+
+    markup = types.ReplyKeyboardMarkup(
+        resize_keyboard=True,
+        row_width=2
+    )
+
+    btn_orden = types.KeyboardButton("📦 Consultar Orden")
+    btn_rotulo = types.KeyboardButton("🏷️ Consultar Rótulo")
+
+    markup.add(btn_orden, btn_rotulo)
+
+    bot.send_message(
+        chat_id,
+        "📋 Selecciona una opción:",
+        reply_markup=markup
+    )
+
+
 @bot.message_handler(commands=['start'])
 def inicio(message):
-    texto = """
-Buen día 👋
-Bot de consultas Enel
 
-Comandos disponibles:
-/orden número_orden
-/rotulo número_rotulo
+    nombre = message.from_user.username
 
-Ejemplo:
-/orden 1994287
-/rotulo 2121929
+    texto = f"""
+👋 Hola {nombre}
 
-Consulta el último estado, Baremos y Material por orden o rotulo.
+Soy el bot de consultas Enel 🤖
+
+Puedo ayudarte a consultar:
+
+📦 Órdenes
+🏷️ Rótulos
+
+Selecciona una opción del menú 👇
 """
-    bot.reply_to(message, texto)
 
+    bot.send_message(
+        message.chat.id,
+        texto
+    )
+
+    mostrar_menu(message.chat.id)
+
+
+
+
+# =========================================
+# PROCESAR ORDEN MENU
+# =========================================
+def procesar_orden_menu(message):
+
+    orden = message.text
+
+    # SIMULAR COMANDO
+    message.text = f"/orden {orden}"
+
+    buscar_cliente(message)
+
+
+# =========================================
+# PROCESAR ROTULO MENU
+# =========================================
+def procesar_rotulo_menu(message):
+
+    rotulo = message.text
+
+    # SIMULAR COMANDO
+    message.text = f"/rotulo {rotulo}"
+
+    buscar_rotulo(message)
+
+#-------------------------------------------------------
+#Comandos
+#-------------------------------------------------------
 # COMANDO /orden
 @bot.message_handler(commands=['orden'])
 def buscar_cliente(message):
@@ -367,6 +426,41 @@ def buscar_rotulo(message):
 
         if conexion:
             conexion.close()
+
+# =========================================
+# MENU INTERACTIVO
+# =========================================
+@bot.message_handler(func=lambda message: True)
+
+def menu_botones(message):
+
+    texto = message.text
+
+    # CONSULTAR ORDEN
+    if texto == "📦 Consultar Orden":
+
+        msg = bot.send_message(
+            message.chat.id,
+            "✍️ Escribe el número de orden:"
+        )
+
+        bot.register_next_step_handler(
+            msg,
+            procesar_orden_menu
+        )
+
+    # CONSULTAR ROTULO
+    elif texto == "🏷️ Consultar Rótulo":
+
+        msg = bot.send_message(
+            message.chat.id,
+            "✍️ Escribe el número de rótulo:"
+        )
+
+        bot.register_next_step_handler(
+            msg,
+            procesar_rotulo_menu
+        )
 
 # INICIAR BOT
 print("Bot iniciado...")
