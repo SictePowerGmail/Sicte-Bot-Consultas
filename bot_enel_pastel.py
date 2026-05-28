@@ -42,14 +42,14 @@ def mostrar_menu(chat_id):
         selective=False
     )
 
-    btn_orden = types.KeyboardButton("📦 Consultar Orden")
+    btn_orden = types.KeyboardButton("📌 Consultar Orden")
     btn_rotulo = types.KeyboardButton("🏷️ Consultar Rótulo")
 
     markup.add(btn_orden, btn_rotulo)
 
     bot.send_message(
         chat_id,
-        "📋 Selecciona una opción:",
+        "📝 Selecciona una opción:",
         reply_markup=markup
     )
 
@@ -441,7 +441,6 @@ def buscar_rotulo(message):
 # MENU INTERACTIVO
 # =========================================
 @bot.message_handler(func=lambda message: True)
-
 def menu_botones(message):
 
     texto = message.text
@@ -471,6 +470,21 @@ def menu_botones(message):
             msg,
             procesar_rotulo_menu
         )
+
+    # MENU
+    elif texto == "🏠 Menú":
+
+        mostrar_menu(message.chat.id)
+
+    # CUALQUIER OTRO MENSAJE
+    else:
+
+        bot.send_message(
+            message.chat.id,
+            "📋 Menú principal"
+        )
+
+        mostrar_menu(message.chat.id)
 
 # INICIAR BOT
 print("Bot iniciado...")
