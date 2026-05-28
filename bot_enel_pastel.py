@@ -55,16 +55,22 @@ def mostrar_menu(chat_id):
 @bot.message_handler(commands=['start'])
 def inicio(message):
 
-    nombre = message.from_user.username
+    nombre = message.from_user.first_name
+    username = message.from_user.username
+
+    if username:
+        saludo = f"{nombre} (@{username})"
+    else:
+        saludo = nombre
 
     texto = f"""
-👋 Hola {nombre}
+Buen día {saludo} 👋
 
-Soy el bot de consultas Enel 🤖
+Soy tu asistente de consultas 🤖
 
 Puedo ayudarte a consultar:
 
-📦 Órdenes
+📌 Órdenes
 🏷️ Rótulos
 
 Selecciona una opción del menú 👇
@@ -437,11 +443,11 @@ def menu_botones(message):
     texto = message.text
 
     # CONSULTAR ORDEN
-    if texto == "📦 Consultar Orden":
+    if texto == "📌 Consultar Orden":
 
         msg = bot.send_message(
             message.chat.id,
-            "✍️ Escribe el número de orden:"
+            "Escribe el número de orden:"
         )
 
         bot.register_next_step_handler(
@@ -454,7 +460,7 @@ def menu_botones(message):
 
         msg = bot.send_message(
             message.chat.id,
-            "✍️ Escribe el número de rótulo:"
+            "Escribe el número de rótulo:"
         )
 
         bot.register_next_step_handler(
