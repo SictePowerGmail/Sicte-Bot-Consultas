@@ -100,7 +100,19 @@ Puedes acceder a el desde el botón ☰
 # =========================================
 def procesar_orden_menu(message):
 
-    orden = message.text
+    texto = message.text
+
+    # VALIDAR BOTONES
+    if texto in [
+        "📌 Consultar Orden",
+        "🏷️ Consultar Rótulo",
+        "☰ Menú"
+    ]:
+
+        menu_botones(message)
+        return
+
+    orden = texto
 
     # SIMULAR COMANDO
     message.text = f"/orden {orden}"
@@ -113,7 +125,19 @@ def procesar_orden_menu(message):
 # =========================================
 def procesar_rotulo_menu(message):
 
-    rotulo = message.text
+    texto = message.text
+
+    # VALIDAR BOTONES
+    if texto in [
+        "📌 Consultar Orden",
+        "🏷️ Consultar Rótulo",
+        "☰ Menú"
+    ]:
+
+        menu_botones(message)
+        return
+
+    rotulo = texto
 
     # SIMULAR COMANDO
     message.text = f"/rotulo {rotulo}"
