@@ -153,7 +153,7 @@ def buscar_cliente(message):
                 respuesta += "\n<b>Baremos:</b> Sin baremos"
 
             if resultado_material:
-                respuesta += "💡 <b>Material:</b>\n"
+                respuesta += "\n💡 <b>Material:</b>\n"
                 for fila in resultado_material:
                     item, cantidad, Item = fila
                     respuesta += (
